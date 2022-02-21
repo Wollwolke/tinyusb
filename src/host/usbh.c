@@ -258,6 +258,21 @@ bool tuh_vid_pid_get(uint8_t dev_addr, uint16_t* vid, uint16_t* pid)
   return true;
 }
 
+bool tuh_str_indices_get(uint8_t dev_addr, uint8_t* i_manufacturer, uint8_t* i_product, uint8_t* i_serial)
+{
+  *i_manufacturer = *i_product = *i_serial = 0;
+
+  TU_VERIFY(tuh_mounted(dev_addr));
+
+  usbh_device_t const* dev = get_device(dev_addr);
+
+  *i_manufacturer = dev->i_manufacturer;
+  *i_product = dev->i_product;
+  *i_serial = dev->i_serial;
+
+  return true;
+}
+
 tusb_speed_t tuh_speed_get (uint8_t dev_addr)
 {
   return (tusb_speed_t) (dev_addr ? get_device(dev_addr)->speed : _dev0.speed);
